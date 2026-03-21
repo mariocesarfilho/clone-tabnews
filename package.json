@@ -4,7 +4,11 @@
   "description": "Repositório para fins de estudo de programação fullstack",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev"
+    "dev": "next dev",
+    "lint:check": "prettier --check .",
+    "lint:fix": "prettir --weite .",
+    "test": "test",
+    "test:watch": "jest --watch"
   },
   "author": "",
   "license": "MIT",
@@ -12,5 +16,8 @@
     "next": "^13.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "jest": "^29.6.2"
   }
 }

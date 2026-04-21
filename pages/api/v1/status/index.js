@@ -10,17 +10,20 @@ async function status(request, response) {
     const dbMaxConnection = await database.query("SHOW max_connections;");
     const dbMaxConnectionValue = dbMaxConnection.rows[0].max_connections;
     
-    const databaseName = process.env.POSTGRES_DB;
-    const dbOpenedConnectionsResult = await database.query(
-        `SELECT count(*)::int FROM pg_stat_activity WHERE datname = '${databaseName}';`);
-    const databaseOpenedConnectionsValue = dbOpenedConnectionsResult.rows[0].count;
+
+    // const databaseName = process.env.POSTGRES_DB;
+    const databaseName = "postgres";
+    const databaseConnectionsResult = await database.query(`SELECT count(*)::int FROM pg_stat_activity WHERE datname = '${databaseName}';`);
+    const databaseOpenedConnectionsValue = databaseConnectionsResult.rows[0].count;
+
 
     response.status(200).json({
         update_at: updatedAt,
-        dependencies: {
+        dependencies: { 
             database: {
                 version: dbVersionValue,
                 max_connections: parseInt(dbMaxConnectionValue),
+                opened_connections: databaseOpenedConnectionsValue,
             },
         },
     });

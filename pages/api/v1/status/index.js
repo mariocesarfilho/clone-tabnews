@@ -3,9 +3,6 @@ import database from "infra/database.js";
 async function status(request, response) {
   const updatedAt = new Date().toISOString();
 
-  const dbValueResult = await database.query("SHOW server_version;");
-  const dbVersionValue = dbValueResult.rows[0].server_version;
-
   const dbMaxConnection = await database.query("SHOW max_connections;");
   const dbMaxConnectionValue = dbMaxConnection.rows[0].max_connections;
 
@@ -23,7 +20,6 @@ async function status(request, response) {
     update_at: updatedAt,
     dependencies: {
       database: {
-        version: dbVersionValue,
         max_connections: parseInt(dbMaxConnectionValue),
         opened_connections: databaseOpenedConnectionsValue,
       },
